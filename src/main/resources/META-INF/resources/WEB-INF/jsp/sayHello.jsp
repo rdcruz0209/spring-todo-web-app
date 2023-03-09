@@ -11,5 +11,9 @@
 
 <p>HTML PAGE WITH BODY - JSP</p>
 
+<button type="button">
+    <a href="http://localhost:8080/todo/login?name=Placeholder"> Login Page</a>
+</button>
+
 </body>
 </html>

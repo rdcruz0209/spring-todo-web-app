@@ -9,7 +9,8 @@
 </head>
 <body>
 
-Welcome to the login page
+<h2> Welcome to the login page ${name}</h2>
+
 
 </body>
 </html>
