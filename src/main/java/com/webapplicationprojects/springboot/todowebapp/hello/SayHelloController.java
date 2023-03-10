@@ -1,9 +1,10 @@
-package com.in28minutes.springboot.todowebapp.hello;
+package com.webapplicationprojects.springboot.todowebapp.hello;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+@RequestMapping("/todo")
 @Controller //a specialized @Component
 public class SayHelloController {
 

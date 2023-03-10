@@ -9,7 +9,25 @@
 </head>
 <body>
 
-<h2> Welcome to the login page ${name}</h2>
+<h2>Welcome to the login page! ${name}</h2>
+
+<pre>${incorrectPasswordResponse}</pre>
+
+<form method="post">
+    Name: <input type="text" name="name" required aria-required="true">
+    Password: <input type="password" name="password" required aria-required="true">
+    <input type="submit">
+</form>
+
+<br>
+
+
+<br>
+
+<button type="button">
+
+    <a href="http://localhost:8080"> Go back to Home Page</a>
+</button>
 
 
 </body>
