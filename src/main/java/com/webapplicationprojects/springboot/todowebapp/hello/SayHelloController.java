@@ -3,8 +3,10 @@ package com.webapplicationprojects.springboot.todowebapp.hello;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 @RequestMapping("/todo")
+@SessionAttributes("name")
 @Controller //a specialized @Component
 public class SayHelloController {
 

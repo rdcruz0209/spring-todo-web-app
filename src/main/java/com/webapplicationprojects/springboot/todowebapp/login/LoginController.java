@@ -4,11 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
+@SessionAttributes("name")
 @RequestMapping("/todo")
 @Slf4j // look for external monitoring for logger such as : Elasticsearch, Logstash, and Kibana
 public class LoginController {
@@ -31,8 +30,11 @@ public class LoginController {
     // password - possward
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String goToWelcomePage(@RequestParam(required = false) String name,
-                                  String password, String incorrectPasswordResponse, ModelMap model) {
+    public String goToWelcomePage(
+            @RequestParam(required = false)
+            @SessionAttribute
+            String name,
+            String password, String incorrectPasswordResponse, ModelMap model) {
 
         if (authenticationService.authenticate(name, password)) {
 
@@ -65,6 +67,7 @@ public class LoginController {
 
     //   in this method we used @RequestParam
     @RequestMapping("/loginwithname")
+
     public String anotherLoginPage(@RequestParam(defaultValue = "Robert", required = false) String name,
                                    ModelMap model) {
         log.info("SLF4J LOG: Accessed login.jsp through Get Method");
