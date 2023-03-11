@@ -1,10 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--import jstl core using tagLib--%>
 <%--tagLib is how we can implement imports in jsp files--%>
-
 <!doctype html>
 <html lang="en">
     <head>
+        <link href="${pageContext.request.contextPath}/webjars/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet"/>
+
         <meta charset="UTF-8">
         <meta name="viewport"
               content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -12,33 +13,33 @@
         <title>Todo List Page</title>
     </head>
     <body>
-        <div>Welcome to TodoWebApp, ${name}.</div>
-        <hr>
-        <h1> Your Todos are:</h1>
-        <br>
-        <table>
-            <thead>
-                <tr>
-                    <th>id</th>
-                    <th>Description</th>
-                    <th>Target Date</th>
-                    <th>Is Done?</th>
-                </tr>
-            </thead>
-            <tbody>
-                <c:forEach items="${todos}" var="todo">
+        <div class="container">
+            <h1> Your Todos are:</h1>
+            <br>
+            <table class="table">
+                <thead>
                     <tr>
-                        <td>${todo.id}</td>
-                        <td>${todo.description}</td>
-                        <td>${todo.targetDate}</td>
-                        <td>${todo.status}</td>
-                            <%--                        <td>${fn:replace(todo.isDone, "true", "Yes")}</td>--%>
-
-
+                        <th>id</th>
+                        <th>Description</th>
+                        <th>Target Date</th>
+                        <th>Is Done?</th>
                     </tr>
-                </c:forEach>
-            </tbody>
-        </table>
-
+                </thead>
+                <tbody>
+                    <c:forEach items="${todos}" var="todo">
+                        <tr>
+                            <td>${todo.id}</td>
+                            <td>${todo.description}</td>
+                            <td>${todo.targetDate}</td>
+                            <td>${todo.status}</td>
+                                <%--                        <td>${fn:replace(todo.isDone, "true", "Yes")}</td>--%>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+            <a href="add-todo" class="btn btn-success">Add Todo</a>
+        </div>
+        <script src="${pageContext.request.contextPath}/webjars/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+        <script src="${pageContext.request.contextPath}/webjars/jquery/3.6.3/jquery.min.js"></script>
     </body>
 </html>

@@ -1,3 +1,6 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%--import jstl core using tagLib--%>
+<%--tagLib is how we can implement imports in jsp files--%>
 <!doctype html>
 <html lang="en">
     <head>
@@ -7,25 +10,18 @@
         <meta name="viewport"
               content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Say Hello Page</title>
+        <title>Add New Todo Page</title>
     </head>
     <body>
         <div class="container">
-            <p>HELLO I AM A JSP VIEW PAGE WITH BODY - JSP</p>
-            <p>Hello I am a view from JSP</p>
-            <button type="button">
-                <a href="http://localhost:8080"> Go back to Home Page</a>
-            </button>
+            <h1>Enter Todo Details</h1>
 
-            <button type="button">
-                <a href="http://localhost:8080/todo/login?name=Placeholder"> Login Page</a>
-            </button>
-            <%--<button type="button">--%>
-            <%--    <a href="http://localhost:8080/todo/loginwithname?name=Placeholder"> Login Page with Name</a>--%>
-            <%--</button>--%>
+            <form method="post">
+                description: <input type="text" required aria-required="true" name="description"/>
+                <input type="submit" class="btn btn-success"/>
+            </form>
         </div>
         <script src="${pageContext.request.contextPath}/webjars/bootstrap/5.1.3/js/bootstrap.min.js"></script>
         <script src="${pageContext.request.contextPath}/webjars/jquery/3.6.3/jquery.min.js"></script>
-
     </body>
 </html>
