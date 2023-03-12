@@ -23,8 +23,9 @@ public class TodoController {
 
     @RequestMapping("/list-todos")
     public String listAllTodos(ModelMap model) {
-
         List<Todo> todos = todoService.findByUserName("Robert");
+
+        // bound in listTodos.jsp as - <c:forEach items="${todos}" var="todo">
         model.addAttribute("todos", todos);
         return "listTodos";
     }

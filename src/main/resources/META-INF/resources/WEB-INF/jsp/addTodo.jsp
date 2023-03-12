@@ -17,7 +17,7 @@
     <body>
         <div class="container">
             <h1>Enter Todo Details</h1>
-            
+
             <%--@elvariable id="todo" type="com.webapplicationprojects.springboot.todowebapp.todo.Todo"--%>
             <form:form method="post" modelAttribute="todo">
                 Description: <form:input type="text" path="description" required="required" name="description"/>
