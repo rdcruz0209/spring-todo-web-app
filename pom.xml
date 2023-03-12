@@ -35,6 +35,12 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
         <!--        dependency needed to run JSP -->
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
@@ -64,12 +70,13 @@
             <version>3.6.3</version>
         </dependency>
 
+        <!--        dependency needed for input validations-->
 
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>provided</scope>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
+
 
     </dependencies>
 

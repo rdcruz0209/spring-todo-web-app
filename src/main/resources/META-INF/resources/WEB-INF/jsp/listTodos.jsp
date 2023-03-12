@@ -1,6 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--import jstl core using tagLib--%>
 <%--tagLib is how we can implement imports in jsp files--%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%--this taglib import is for spring form tag library used for FBO - form backing object --%>
 <!doctype html>
 <html lang="en">
     <head>

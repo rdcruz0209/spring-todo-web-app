@@ -26,7 +26,7 @@ public class LoginController {
     }
 
     //authentication logic
-    // name - Robertdev
+    // name - Robert
     // password - possward
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -37,7 +37,6 @@ public class LoginController {
             String password, String incorrectPasswordResponse, ModelMap model) {
 
         if (authenticationService.authenticate(name, password)) {
-
             model.put("name", name);
             return "welcome";
         } else {

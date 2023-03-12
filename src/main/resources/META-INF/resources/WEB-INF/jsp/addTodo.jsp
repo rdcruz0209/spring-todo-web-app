@@ -1,6 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--import jstl core using tagLib--%>
 <%--tagLib is how we can implement imports in jsp files--%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%--this taglib import is for spring form tag library used for FBO - form backing object --%>
 <!doctype html>
 <html lang="en">
     <head>
@@ -15,11 +17,12 @@
     <body>
         <div class="container">
             <h1>Enter Todo Details</h1>
-
-            <form method="post">
-                description: <input type="text" required aria-required="true" name="description"/>
+            
+            <%--@elvariable id="todo" type="com.webapplicationprojects.springboot.todowebapp.todo.Todo"--%>
+            <form:form method="post" modelAttribute="todo">
+                Description: <form:input type="text" path="description" required="required" name="description"/>
                 <input type="submit" class="btn btn-success"/>
-            </form>
+            </form:form>
         </div>
         <script src="${pageContext.request.contextPath}/webjars/bootstrap/5.1.3/js/bootstrap.min.js"></script>
         <script src="${pageContext.request.contextPath}/webjars/jquery/3.6.3/jquery.min.js"></script>

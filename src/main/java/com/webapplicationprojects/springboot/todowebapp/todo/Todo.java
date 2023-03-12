@@ -51,7 +51,7 @@ public class Todo {
         return targetDate;
     }
 
-    public boolean isStatus() {
+    public boolean getStatus() {
         return status;
     }
 
@@ -71,8 +71,8 @@ public class Todo {
         this.targetDate = targetDate;
     }
 
-    public void setStatus(boolean isDone) {
-        this.status = isDone;
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     @Override
