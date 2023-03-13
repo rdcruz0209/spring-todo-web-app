@@ -26,6 +26,8 @@
                         <th>Description</th>
                         <th>Target Date</th>
                         <th>Is Done?</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,8 +38,11 @@
                             <td>${todo.description}</td>
                             <td>${todo.targetDate}</td>
                             <td>${todo.status}</td>
+
                                 <%--                        <td>${fn:replace(todo.isDone, "true", "Yes")}</td>--%>
                                 <%--                            isDone variable not working in jsp files jstl naming convention--%>
+                            <td><a href="delete-todo?id=${todo.id}" class="btn btn-warning">Delete</a></td>
+                            <td><a href="update-todo?id=${todo.id}" class="btn btn-success">Update</a></td>
                         </tr>
                     </c:forEach>
                 </tbody>

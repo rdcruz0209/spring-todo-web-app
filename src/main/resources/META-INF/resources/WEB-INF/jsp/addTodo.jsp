@@ -19,10 +19,17 @@
             <h1>Enter Todo Details</h1>
 
             <%--@elvariable id="todo" type="com.webapplicationprojects.springboot.todowebapp.todo.Todo"--%>
+            <%--            model attribute that will be passed in to showNewTodo and addNewTodo in TodoController class--%>
             <form:form method="post" modelAttribute="todo">
                 Description: <form:input type="text" path="description" required="required" name="description"/>
                 <input type="submit" class="btn btn-success"/>
+                <br>
+                <form:errors path="description" cssClass="text-warning"/>
+                <%--                ${errorMessage}--%>
+                <%--                errorMessage from model in addNewTodo Post method--%>
             </form:form>
+
+
         </div>
         <script src="${pageContext.request.contextPath}/webjars/bootstrap/5.1.3/js/bootstrap.min.js"></script>
         <script src="${pageContext.request.contextPath}/webjars/jquery/3.6.3/jquery.min.js"></script>

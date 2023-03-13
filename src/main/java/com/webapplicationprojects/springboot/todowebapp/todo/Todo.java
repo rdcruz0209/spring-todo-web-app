@@ -1,5 +1,6 @@
 package com.webapplicationprojects.springboot.todowebapp.todo;
 
+import jakarta.validation.constraints.Size;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDate;
@@ -13,6 +14,7 @@ public class Todo {
 
     private int id;
     private String username;
+    @Size(min = 10, message = "Enter at least 10 characters")
     private String description;
     private LocalDate targetDate;
     private boolean status;
