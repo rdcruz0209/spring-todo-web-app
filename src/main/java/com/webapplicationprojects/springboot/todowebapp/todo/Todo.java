@@ -12,7 +12,9 @@ import java.time.LocalDate;
 @Controller
 public class Todo {
 
+
     private int id;
+    @Size(min = 6, message = "Enter at least 6 characters")
     private String username;
     @Size(min = 10, message = "Enter at least 10 characters")
     private String description;

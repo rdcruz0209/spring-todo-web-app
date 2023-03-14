@@ -70,6 +70,13 @@
             <version>3.6.3</version>
         </dependency>
 
+        <!--        bootstrap for date picker-->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap-datepicker</artifactId>
+            <version>1.9.0</version>
+        </dependency>
+
         <!--        dependency needed for input validations-->
 
         <dependency>
