@@ -3,13 +3,13 @@ package com.webapplicationprojects.springboot.todowebapp.todo;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import java.util.List;
 import java.util.Map;
@@ -20,7 +20,7 @@ import java.util.Map;
 @Slf4j
 public class TodoController {
 
-    private TodoService todoService;
+    private final TodoService todoService;
 
     public TodoController(TodoService todoService) {
         this.todoService = todoService;
@@ -28,15 +28,16 @@ public class TodoController {
 
     @RequestMapping("/list-todos")
     public String listAllTodos(ModelMap model) {
-        List<Todo> todos = todoService.findByUserName("Robert");
+        String username = getLoggedInUserName(model);
         // bound in listTodos.jsp as - <c:forEach items="${todos}" var="todo">
+        List<Todo> todos = todoService.findByUserName(username);
         model.put("todos", todos);
         return "listTodos";
     }
 
     @RequestMapping(value = "/add-todo", method = RequestMethod.GET)
     public String showNewTodoPage(ModelMap model, Todo todo) {
-        String name = (String) model.get("name");
+//        String name = (String) model.get("name");
 //
 //        Todo todo = new Todo(0, name, "", LocalDate.now().plusYears(1), false);
 //        todo.setDescription("Default Description"); 2-way binding. pass this setDescription using todo command bean in the view
@@ -58,7 +59,7 @@ public class TodoController {
 
         } else {
 
-            String user = (String) model.get("name");
+            String user = getLoggedInUserName(model);
             log.info("WEBAPP LOG: " + todo.getDescription() + " input description is obtained using FBO Todo todo in the parameter field");
             todoService.addTodo(user, todo.getDescription(), todo.getTargetDate(), false);
 //        redirect to existing view with the new data to avoid code duplication
@@ -98,7 +99,7 @@ public class TodoController {
                 System.out.println(entry.getKey() + " : " + entry.getValue());
             }
 
-            String username = (String) model.get("name");
+            String username = getLoggedInUserName(model);
             todo.setUsername(username);
             log.info("WEBAPP LOG: " + todo.getDescription() + " input description is obtained using FBO Todo todo in the parameter field");
             todoService.updateTodo(todo);
@@ -106,5 +107,21 @@ public class TodoController {
             return "redirect:list-todos";
         }
     }
+
+    private static String getLoggedInUserName(ModelMap model) {
+        printAllModelMapModels(model);
+        Authentication authentication =
+                SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getName();
+    }
+
+    private static void printAllModelMapModels(ModelMap model) {
+        for (Map.Entry<String, Object> entry : model.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            System.out.println(key + " = " + value);
+        }
+    }
+
 
 }
