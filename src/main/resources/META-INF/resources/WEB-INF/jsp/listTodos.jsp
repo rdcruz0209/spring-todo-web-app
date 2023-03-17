@@ -18,6 +18,7 @@
         </thead>
         <tbody>
             <c:forEach items="${todos}" var="todo">
+                <%--                todo in todos--%>
                 <tr>
                         <%--                            <td>${todo.id}</td>--%>
                         <%--                            <td>${todo.username}</td>--%>

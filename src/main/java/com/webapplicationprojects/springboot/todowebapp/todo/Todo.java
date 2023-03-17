@@ -1,24 +1,25 @@
 package com.webapplicationprojects.springboot.todowebapp.todo;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import org.springframework.stereotype.Controller;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 //Database (MySQL)
 //create a List of Todos ==> we will use real database (H2, MySQL)
 
-
-@Controller
+@Entity
 public class Todo {
 
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    @Size(min = 6, message = "Enter at least 6 characters")
     private String username;
     @Size(min = 10, message = "Enter at least 10 characters")
     private String description;
     private LocalDate targetDate;
+    @Column(name = "IS_DONE")
     private boolean status;
 
     public Todo(int id, String username, String description, LocalDate targetDate, boolean status) {
@@ -29,9 +30,6 @@ public class Todo {
         this.status = status;
     }
 
-    //study how the instance values of this class are binded to jstl view
-    //study how the instance values of this class are binded to jstl view
-    //study how the instance values of this class are binded to jstl view
     //study how the instance values of this class are binded to jstl view
     //study how the instance values of this class are binded to jstl view
     //study how the instance values of this class are binded to jstl view
