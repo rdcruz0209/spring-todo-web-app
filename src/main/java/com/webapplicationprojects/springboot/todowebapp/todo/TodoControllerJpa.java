@@ -31,7 +31,7 @@ public class TodoControllerJpa {
 
     @RequestMapping("/list-todos")
     public String listAllTodos(ModelMap model) {
-        printAllModelMapModels(model, "listAllTodos Post");
+        printAllModelMapAttributes(model, "listAllTodos Post");
         String username = getLoggedInUserName(model);
         // bound in listTodos.jsp as - <c:forEach items="${todos}" var="todo">
         List<Todo> todos = todoRepository.findByUsername(username);
@@ -41,7 +41,7 @@ public class TodoControllerJpa {
 
     @RequestMapping(value = "/add-todo", method = RequestMethod.GET)
     public String showNewTodoPage(ModelMap model, Todo todo) {
-        printAllModelMapModels(model, "showNewTodo GET");
+        printAllModelMapAttributes(model, "showNewTodo GET");
         System.out.println(todo.getUsername());
 
 
@@ -60,7 +60,7 @@ public class TodoControllerJpa {
 
     @RequestMapping(value = "/add-todo", method = RequestMethod.POST)
     public String addNewTodo(ModelMap model, @Valid Todo todo, BindingResult bindingResult) {
-        printAllModelMapModels(model, "Add New Todo Post");
+        printAllModelMapAttributes(model, "Add New Todo Post");
         if (bindingResult.hasErrors()) {
             log.info("Field Validation Error " + bindingResult.getFieldError().getDefaultMessage());
             return "addTodo";
@@ -93,7 +93,7 @@ public class TodoControllerJpa {
 
     @RequestMapping(value = "/update-todo", method = RequestMethod.GET)
     public String showUpdateTodoPage(@RequestParam int id, ModelMap model) {
-        printAllModelMapModels(model, "showUpdateTodoPage Get");
+        printAllModelMapAttributes(model, "showUpdateTodoPage Get");
 //        Todo todo = todoService.findById(id);
 //        model.addAttribute("todo", todo);
         Todo todo = todoRepository.findById(id).orElse(null);
@@ -103,12 +103,12 @@ public class TodoControllerJpa {
 
     @RequestMapping(value = "/update-todo", method = RequestMethod.POST)
     public String updateTodo(ModelMap model, @Valid Todo todo, BindingResult bindingResult) {
-        printAllModelMapModels(model, "updateTodo POST");
+        printAllModelMapAttributes(model, "updateTodo POST");
         if (bindingResult.hasErrors()) {
             return "addTodo";
         } else {
             System.out.println("username from model: " + model.getAttribute("username"));
-            printAllModelMapModels(model, "update Todo Post");
+            printAllModelMapAttributes(model, "update Todo Post");
             String username = getLoggedInUserName(model);
             System.out.println(username);
             todo.setUsername(username);
@@ -126,7 +126,7 @@ public class TodoControllerJpa {
         return authentication.getName();
     }
 
-    private static void printAllModelMapModels(ModelMap model, String methodName) {
+    private static void printAllModelMapAttributes(ModelMap model, String methodName) {
         System.out.println("=========================================================");
         System.out.println("Model attributes: " + methodName);
         System.out.println("attribute count: " + model.size());
