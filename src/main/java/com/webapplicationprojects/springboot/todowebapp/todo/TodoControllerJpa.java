@@ -9,16 +9,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
 @RequestMapping("/todo")
-@SessionAttributes("name")
+@SessionAttributes("username")
 @Controller
 @Slf4j
 public class TodoControllerJpa {
@@ -34,6 +31,7 @@ public class TodoControllerJpa {
 
     @RequestMapping("/list-todos")
     public String listAllTodos(ModelMap model) {
+        printAllModelMapModels(model, "listAllTodos Post");
         String username = getLoggedInUserName(model);
         // bound in listTodos.jsp as - <c:forEach items="${todos}" var="todo">
         List<Todo> todos = todoRepository.findByUsername(username);
@@ -43,6 +41,9 @@ public class TodoControllerJpa {
 
     @RequestMapping(value = "/add-todo", method = RequestMethod.GET)
     public String showNewTodoPage(ModelMap model, Todo todo) {
+        printAllModelMapModels(model, "showNewTodo GET");
+        System.out.println(todo.getUsername());
+
 
         String s = "hello";
         s.substring(0, 2);
@@ -59,26 +60,32 @@ public class TodoControllerJpa {
 
     @RequestMapping(value = "/add-todo", method = RequestMethod.POST)
     public String addNewTodo(ModelMap model, @Valid Todo todo, BindingResult bindingResult) {
+        printAllModelMapModels(model, "Add New Todo Post");
         if (bindingResult.hasErrors()) {
             log.info("Field Validation Error " + bindingResult.getFieldError().getDefaultMessage());
             return "addTodo";
-
         } else {
 
+            // for repository the recommended method is to populate the entity object with required values
+//            before invoking the repository.save(entityObject) method
+
             String user = getLoggedInUserName(model);
+            todo.setUsername(user);
             log.info("WEBAPP LOG: " + todo.getDescription() + " input description is obtained using FBO Todo todo in the parameter field");
-            todoService.addTodo(user, todo.getDescription(), todo.getTargetDate(), false);
-//        redirect to existing view with the new data to avoid code duplication
+//            todoService.addTodo(todo.getUsername(), todo.getDescription(), todo.getTargetDate(), todo.getStatus());
+//            redirect to existing view with the new data to avoid code duplication
+            todoRepository.save(todo);
             return "redirect:list-todos";
         }
     }
 
-
     @RequestMapping("/delete-todo")
     public String deleteTodo(@RequestParam int id) {
         //delete todo with this id
-        todoService.deleteTodoById(id);
-
+        Todo todoToBeDeleted = todoRepository.getReferenceById(id);
+        log.info("Todo to be deleted = " + todoToBeDeleted.getId() + " " + todoToBeDeleted.getDescription());
+        todoRepository.deleteById(id);
+//        todoService.deleteTodoById(id);
         return "redirect:list-todos";
     }
 
@@ -86,47 +93,49 @@ public class TodoControllerJpa {
 
     @RequestMapping(value = "/update-todo", method = RequestMethod.GET)
     public String showUpdateTodoPage(@RequestParam int id, ModelMap model) {
+        printAllModelMapModels(model, "showUpdateTodoPage Get");
 //        Todo todo = todoService.findById(id);
 //        model.addAttribute("todo", todo);
-
-        Todo todo = todoService.findById(id);
+        Todo todo = todoRepository.findById(id).orElse(null);
         model.addAttribute("todo", todo);
         return "addTodo";
     }
 
     @RequestMapping(value = "/update-todo", method = RequestMethod.POST)
     public String updateTodo(ModelMap model, @Valid Todo todo, BindingResult bindingResult) {
+        printAllModelMapModels(model, "updateTodo POST");
         if (bindingResult.hasErrors()) {
             return "addTodo";
         } else {
-            System.out.println(model.size());
-            System.out.println("Model attributes:");
-            for (Map.Entry<String, Object> entry : model.entrySet()) {
-                System.out.println(entry.getKey() + " : " + entry.getValue());
-            }
-
+            System.out.println("username from model: " + model.getAttribute("username"));
+            printAllModelMapModels(model, "update Todo Post");
             String username = getLoggedInUserName(model);
+            System.out.println(username);
             todo.setUsername(username);
+            todoRepository.save(todo);
             log.info("WEBAPP LOG: " + todo.getDescription() + " input description is obtained using FBO Todo todo in the parameter field");
-            todoService.updateTodo(todo);
+//            todoService.updateTodo(todo);
 //        redirect to existing view with the new data to avoid code duplication
             return "redirect:list-todos";
         }
     }
 
     private static String getLoggedInUserName(ModelMap model) {
-        printAllModelMapModels(model);
         Authentication authentication =
                 SecurityContextHolder.getContext().getAuthentication();
         return authentication.getName();
     }
 
-    private static void printAllModelMapModels(ModelMap model) {
+    private static void printAllModelMapModels(ModelMap model, String methodName) {
+        System.out.println("=========================================================");
+        System.out.println("Model attributes: " + methodName);
+        System.out.println("attribute count: " + model.size());
         for (Map.Entry<String, Object> entry : model.entrySet()) {
             String key = entry.getKey();
             Object value = entry.getValue();
             System.out.println(key + " = " + value);
         }
+        System.out.println("=========================================================");
     }
 
 

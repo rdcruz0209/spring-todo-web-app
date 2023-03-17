@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @RequestMapping("/todo")
-@SessionAttributes("name")
+@SessionAttributes("username")
 //@Controller
 @Slf4j
 public class TodoController {
