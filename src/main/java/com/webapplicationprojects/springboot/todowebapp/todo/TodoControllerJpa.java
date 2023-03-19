@@ -9,10 +9,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/todo")
@@ -27,13 +31,17 @@ public class TodoControllerJpa {
     }
 
     @RequestMapping("/list-todos")
-    public String listAllTodos(ModelMap model) {
+    public ModelAndView listAllTodos(ModelMap model, ModelAndView mav) {
         String username = getLoggedInUserName(model);
         // bound in listTodos.jsp as - <c:forEach items="${todos}" var="todo">
         List<Todo> todos = todoRepository.findByUsername(username);
-        model.addAttribute("todos", todos);
-        printAllModelMapAttributes(model, "listAllTodos Post");
-        return "listTodos";
+//        model.addAttribute("todos", todos);
+//        printAllModelMapAttributes(model, "listAllTodos Post");
+//        tested ModelAndView implementation. Will work the same as ModelMap but in this method the return type is of type ModelAndView
+        mav.addObject("todos", todos);
+        mav.setViewName("listTodos");
+        return mav;
+//        return "listTodos";
     }
 
     @RequestMapping(value = "/add-todo", method = RequestMethod.GET)
@@ -51,7 +59,7 @@ public class TodoControllerJpa {
     public String addNewTodo(ModelMap model, @Valid Todo todo, BindingResult bindingResult) {
         printAllModelMapAttributes(model, "Add New Todo Post");
         if (bindingResult.hasErrors()) {
-            log.info("Field Validation Error " + bindingResult.getFieldError().getDefaultMessage());
+            log.info("Field Validation Error " + Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
             return "addTodo";
         } else {
             // for repository the recommended method is to populate the entity object with required values
@@ -79,10 +87,11 @@ public class TodoControllerJpa {
 
     @RequestMapping(value = "/update-todo", method = RequestMethod.GET)
     public String showUpdateTodoPage(@RequestParam int id, ModelMap model) {
-//        Todo todo = todoService.findById(id);
-//        model.addAttribute("todo", todo);
-        Todo todo = todoRepository.findByUsername("Robert").stream().filter(a -> a.getId() == id).findAny().get();
+        Todo todo = todoRepository.findByUsername("Robert").
+                stream().filter((a) -> a.getId() == id).
+                findFirst().orElse(null);
         model.addAttribute("todo", todo);
+        assert todo != null;
         System.out.println(todo.getUsername());
         printAllModelMapAttributes(model, "showUpdateTodoPage Get");
         return "addTodo";

@@ -2,14 +2,9 @@ package com.webapplicationprojects.springboot.todowebapp.configuration;
 
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.text.SimpleDateFormat;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 import java.util.Date;
-import java.util.TimeZone;
 
 @Configuration
 @Slf4j

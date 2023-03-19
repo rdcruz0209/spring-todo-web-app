@@ -1,13 +1,15 @@
 package com.webapplicationprojects.springboot.todowebapp.login;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.NoHandlerFoundException;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 @Controller
 @SessionAttributes("username")
@@ -23,6 +25,7 @@ public class WelcomeController {
     private String getLoggedinUserName() {
         Authentication authentication =
                 SecurityContextHolder.getContext().getAuthentication();
+        System.out.println(authentication.getName());
         return authentication.getName();
     }
 }
