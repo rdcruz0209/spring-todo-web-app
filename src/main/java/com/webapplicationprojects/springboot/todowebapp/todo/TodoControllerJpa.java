@@ -14,46 +14,35 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
-@RequestMapping("/todo")
-@SessionAttributes("username")
 @Controller
+@RequestMapping("/todo")
 @Slf4j
 public class TodoControllerJpa {
 
     private final TodoRepository todoRepository;
-    private final TodoService todoService;
 
     @Autowired
-    public TodoControllerJpa(TodoRepository todoRepository, TodoService todoService) {
+    public TodoControllerJpa(TodoRepository todoRepository) {
         this.todoRepository = todoRepository;
-        this.todoService = todoService;
     }
 
     @RequestMapping("/list-todos")
     public String listAllTodos(ModelMap model) {
-        printAllModelMapAttributes(model, "listAllTodos Post");
         String username = getLoggedInUserName(model);
         // bound in listTodos.jsp as - <c:forEach items="${todos}" var="todo">
         List<Todo> todos = todoRepository.findByUsername(username);
-        model.put("todos", todos);
+        model.addAttribute("todos", todos);
+        printAllModelMapAttributes(model, "listAllTodos Post");
         return "listTodos";
     }
 
     @RequestMapping(value = "/add-todo", method = RequestMethod.GET)
     public String showNewTodoPage(ModelMap model, Todo todo) {
-        printAllModelMapAttributes(model, "showNewTodo GET");
-        System.out.println(todo.getUsername());
-
-
-        String s = "hello";
-        s.substring(0, 2);
-//        String name = (String) model.get("name");
-//
-//        Todo todo = new Todo(0, name, "", LocalDate.now().plusYears(1), false);
 //        todo.setDescription("Default Description"); 2-way binding. pass this setDescription using todo command bean in the view
         todo.setDescription("");
         model.addAttribute("todo", todo);
         log.info("WEBAPP LOG: " + todo.getDescription() + " default description is passed to the model in the view using FBO form tag library");
+        printAllModelMapAttributes(model, "showNewTodo GET");
 
         return "addTodo";
     }
@@ -65,15 +54,12 @@ public class TodoControllerJpa {
             log.info("Field Validation Error " + bindingResult.getFieldError().getDefaultMessage());
             return "addTodo";
         } else {
-
             // for repository the recommended method is to populate the entity object with required values
 //            before invoking the repository.save(entityObject) method
-
             String user = getLoggedInUserName(model);
             todo.setUsername(user);
             log.info("WEBAPP LOG: " + todo.getDescription() + " input description is obtained using FBO Todo todo in the parameter field");
-//            todoService.addTodo(todo.getUsername(), todo.getDescription(), todo.getTargetDate(), todo.getStatus());
-//            redirect to existing view with the new data to avoid code duplication
+            System.out.println(todo.getTargetDate());
             todoRepository.save(todo);
             return "redirect:list-todos";
         }
@@ -93,21 +79,25 @@ public class TodoControllerJpa {
 
     @RequestMapping(value = "/update-todo", method = RequestMethod.GET)
     public String showUpdateTodoPage(@RequestParam int id, ModelMap model) {
-        printAllModelMapAttributes(model, "showUpdateTodoPage Get");
 //        Todo todo = todoService.findById(id);
 //        model.addAttribute("todo", todo);
-        Todo todo = todoRepository.findById(id).orElse(null);
+        Todo todo = todoRepository.findByUsername("Robert").stream().filter(a -> a.getId() == id).findAny().get();
         model.addAttribute("todo", todo);
+        System.out.println(todo.getUsername());
+        printAllModelMapAttributes(model, "showUpdateTodoPage Get");
         return "addTodo";
+
     }
 
     @RequestMapping(value = "/update-todo", method = RequestMethod.POST)
     public String updateTodo(ModelMap model, @Valid Todo todo, BindingResult bindingResult) {
-        printAllModelMapAttributes(model, "updateTodo POST");
+        System.out.println(todo.getUsername());
+        System.out.println(todo.getId());
+        System.out.println(todo.getDescription());
+        System.out.println(todo.getTargetDate());
         if (bindingResult.hasErrors()) {
             return "addTodo";
         } else {
-            System.out.println("username from model: " + model.getAttribute("username"));
             printAllModelMapAttributes(model, "update Todo Post");
             String username = getLoggedInUserName(model);
             System.out.println(username);
@@ -116,6 +106,8 @@ public class TodoControllerJpa {
             log.info("WEBAPP LOG: " + todo.getDescription() + " input description is obtained using FBO Todo todo in the parameter field");
 //            todoService.updateTodo(todo);
 //        redirect to existing view with the new data to avoid code duplication
+            printAllModelMapAttributes(model, "updateTodo POST");
+
             return "redirect:list-todos";
         }
     }

@@ -2,8 +2,6 @@ package com.webapplicationprojects.springboot.todowebapp.todo;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import lombok.NoArgsConstructor;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.time.LocalDate;
 
@@ -11,7 +9,6 @@ import java.time.LocalDate;
 //create a List of Todos ==> we will use real database (H2, MySQL)
 
 @Entity
-@SessionAttributes({"username", "todo"})
 public class Todo {
 
     @Id
@@ -20,6 +17,8 @@ public class Todo {
     private String username;
     @Size(min = 10, message = "Enter at least 10 characters")
     private String description;
+    //    @FutureOrPresent(message = "Please enter a future date")
+    @Column(columnDefinition = "DATE")
     private LocalDate targetDate;
     @Column(name = "IS_DONE")
     private boolean status;

@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 @Controller
-@SessionAttributes({"username", "todo"})
+@SessionAttributes("username")
 @Slf4j // look for external monitoring for logger such as : Elasticsearch, Logstash, and Kibana
 public class WelcomeController {
     //    login view

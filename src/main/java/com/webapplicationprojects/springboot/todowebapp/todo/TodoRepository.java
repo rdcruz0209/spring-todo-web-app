@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.util.List;
 
-@SessionAttributes({"username", "todo"})
 public interface TodoRepository extends JpaRepository<Todo, Integer> {
 
     public List<Todo> findByUsername(String username);
