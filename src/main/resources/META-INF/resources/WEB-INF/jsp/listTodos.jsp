@@ -2,14 +2,14 @@
 <%@ include file="common/navigation.jspf" %>
 
 <div class="container">
-    
+
     <h1> Your Todos are:</h1>
     <br>
     <table class="table">
         <thead>
             <tr>
-                <th>id</th>
-                <th>Username</th>
+                <%--                <th>id</th>--%>
+                <%--                <th>Username</th>--%>
                 <th>Description</th>
                 <th>Target Date</th>
                 <th>Is Done?</th>
@@ -21,8 +21,8 @@
             <c:forEach items="${todos}" var="todo">
                 <%--                todo in todos--%>
                 <tr>
-                    <td>${todo.id}</td>
-                    <td>${todo.username}</td>
+                        <%--                    <td>${todo.id}</td>--%>
+                        <%--                    <td>${todo.username}</td>--%>
                     <td>${todo.description}</td>
                     <td>${todo.targetDate}</td>
                     <td>${todo.status}</td>
