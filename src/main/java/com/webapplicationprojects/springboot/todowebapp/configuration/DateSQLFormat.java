@@ -2,7 +2,9 @@ package com.webapplicationprojects.springboot.todowebapp.configuration;
 
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 
 import java.util.Date;
 
@@ -16,4 +18,6 @@ public class DateSQLFormat {
         log.info(System.getProperty("user.timezone", "EST"));
         log.info("Spring boot application running in UTC timezone :" + new Date()); // It will print UTC timezone;
     }
+
+
 }
