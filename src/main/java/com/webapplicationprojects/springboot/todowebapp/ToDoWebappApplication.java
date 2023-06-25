@@ -10,6 +10,7 @@ public class ToDoWebappApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(ToDoWebappApplication.class, args);
+     
     }
 
 }
